@@ -1,9 +1,0 @@
-require 'file.rb'
-
-def thismethod(param)
-  puts "cool"
-end
-
-3.times do
-  thismethod
-end
