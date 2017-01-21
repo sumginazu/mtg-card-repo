@@ -1,8 +1,6 @@
 require_relative 'boot'
 
 require 'rails/all'
-require 'zip'
-require 'open-uri'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -13,6 +11,8 @@ module MtgCardRepo
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
+
+    config.assets.initialize_on_precompile = false
 
     # Ensure that mtgjson is downloaded - if not, download it
     mtgjson_file = Rails.root.join('app', 'json', 'mtg.json')
