@@ -1,9 +1,11 @@
+<% provide(:title, "#{@user.username}'s page")%>
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Username:</strong>
-  <%= @user.username %>
-</p>
+<h1>
+  <% profile_image_for @user %>
+
+  <strong><%= @user.username %></strong>
+</h1>
 
 <p>
   <strong>Name:</strong>
