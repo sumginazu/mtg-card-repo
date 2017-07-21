@@ -1,0 +1,12 @@
+<% if @user.errors.any? %>
+  <div id="error_explantion">
+    <div class="alert alert-danger">
+      There were some errors with your request.
+      <ul>
+	<% @user.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+	<% end %>
+      </ul>
+    </div>
+  </div>
+<% end %>
