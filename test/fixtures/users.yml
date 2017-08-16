@@ -3,7 +3,7 @@
 one:
   username: test_user
   name: Testy McPerson
-  email: test@example.com
+  email: test1@example.com
 
 with_password:
   username: password_haver
