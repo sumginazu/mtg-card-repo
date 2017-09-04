@@ -12,6 +12,7 @@ default: &default
   port: 5432
   username: alex
   password: 1234
+  template: template0
 
 development:
   <<: *default
