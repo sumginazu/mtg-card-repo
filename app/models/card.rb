@@ -11,6 +11,15 @@ class Card < ApplicationRecord
   serialize :printings, Array
   serialize :legalities, Array
 
+  def Card.complete_hash
+    @json ||= JSON.parse(File.read('db/source/AllCards-x.json'))
+    @_complete_hash ||= @json.map {|c| parse c}
+  end
+
+  def Card.create_from_name name
+    Card.new(complete_hash[name])
+  end
+
   # Takes a hash representing a JSON string representing a card and turns it
   # into a hash that can be used to instantiate a new Card object.
   # JSON must follow the format defined by mtgjson.com.
