@@ -1,5 +1,7 @@
 # README
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/392f27c5adb54e528f27700bd02677f3)](https://www.codacy.com/app/sumginazu/mtg-card-repo?utm_source=github.com&utm_medium=referral&utm_content=sumginazu/mtg-card-repo&utm_campaign=badger)
+
 This README would normally document whatever steps are necessary to get the
 application up and running.
 
