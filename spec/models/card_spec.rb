@@ -47,8 +47,8 @@ RSpec.describe Card, type: :model do
   end
 
   describe '.update_db' do
+    let(:name) {'Tireless Tracker'}
     it 'populates the db' do
-      let(:name) {'Tireless Tracker'}
       expect(Card.find_by_name name).to be_nil
 
       Card.update_db cards: [name] # create

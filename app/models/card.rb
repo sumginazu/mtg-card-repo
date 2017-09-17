@@ -80,7 +80,7 @@ class Card < ApplicationRecord
         card = Card.create_from_name name
       end
       card.save!
-      puts name
+      puts name if options[:v]
     end
   end
 end

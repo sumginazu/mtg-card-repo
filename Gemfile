@@ -45,13 +45,13 @@ group :development, :test do
   gem 'byebug'#, platform: :mri
   gem 'win32console' if Dir.pwd.include? 'mtg-card-repo'
   gem 'rspec-rails'
+  gem 'guard'
+  gem 'guard-rspec'
 end
 
 group :test do
   gem 'rails-controller-testing'
   gem 'minitest-reporters'
-  gem 'guard'
-  gem 'guard-minitest'
 end
 
 group :development do
