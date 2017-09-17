@@ -1,3 +1,6 @@
+require 'net/http'
+require 'zip'
+
 class Card < ApplicationRecord
   serialize :names, Array
   serialize :colors, Array
@@ -12,11 +15,19 @@ class Card < ApplicationRecord
   serialize :legalities, Array
 
   def Card.complete_hash
-    @json ||= JSON.parse(File.read('db/source/AllCards-x.json'))
-    @_complete_hash ||= @json.map {|c| parse c}
+    @json ||= JSON.parse(File.read('db/source/mtg.json'))
+    @_complete_hash ||= (@json.map {|name, json| [name, parse(json)]}).to_h
+  end
+
+  def Card.reset_hash
+    @json = nil
+    @_complete_hash = nil
   end
 
   def Card.create_from_name name
+    unless name.present? && complete_hash.keys.include?(name)
+      raise Exceptions::NoSuchCardException
+    end
     Card.new(complete_hash[name])
   end
 
@@ -30,6 +41,43 @@ class Card < ApplicationRecord
     json.each_with_object({}) do |kv, o| # use snake case
       key, value = kv
       o[key.to_s.underscore.to_sym] = value
+    end
+  end
+
+  def Card.fetch_json_from_source
+    source_url = 'https://mtgjson.com/json/AllCards-x.json.zip'
+    dest_zip = Rails.root.join('db', 'source', 'mtg.json.zip')
+    dest_json = Rails.root.join('db', 'source', 'mtg.json')
+    puts "Deleting old source data..."
+    File.delete(dest_zip) if File.exist? dest_zip
+    File.delete(dest_json) if File.exist? dest_json
+    puts "Downloading from mtgjson.com..."
+    IO.copy_stream(open(source_url), dest_zip.to_s)
+    c = 0
+    until File.exist?(dest_zip) || c > 10 do
+      sleep 2
+      c += 1
+    end
+    puts "Unzipping MTG JSON file..."
+    Zip::File.open(dest_zip) do |zipfile|
+      zipfile.extract(zipfile.first, dest_json)
+    end
+    puts "Download complete."
+  end
+
+  def Card.update_db options={}
+    fetch_json_from_source if options[:refresh_source]
+    reset_hash
+    keys = options[:cards] || complete_hash.keys
+    keys.each do |name|
+      card = Card.find_by_name name
+      if card.present?
+        card.update(Card.create_from_name name)
+      else
+        card = Card.create_from_name name
+      end
+      card.save!
+      puts name
     end
   end
 end
