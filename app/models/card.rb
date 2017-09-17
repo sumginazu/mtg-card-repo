@@ -75,7 +75,7 @@ class Card < ApplicationRecord
     keys.each do |name|
       card = Card.find_by_name name
       if card.present?
-        card.update(Card.create_from_name name)
+        card.update(complete_hash[name])
       else
         card = Card.create_from_name name
       end

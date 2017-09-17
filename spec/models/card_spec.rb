@@ -51,7 +51,10 @@ RSpec.describe Card, type: :model do
       let(:name) {'Tireless Tracker'}
       expect(Card.find_by_name name).to be_nil
 
-      Card.update_db cards: [name]
+      Card.update_db cards: [name] # create
+      expect(Card).to exist name: name
+
+      Card.update_db cards: [name] # overwrite
       expect(Card).to exist name: name
     end
   end
