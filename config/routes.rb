@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :collections
+  resources :card_instances
   get 'sessions/new'
 
   root 'static_pages#home'

@@ -2,6 +2,9 @@ require 'net/http'
 require 'zip'
 
 class Card < ApplicationRecord
+  has_many :card_instances
+  has_many :users, through: :card_instances
+
   serialize :names, Array
   serialize :colors, Array
   serialize :color_identity, Array

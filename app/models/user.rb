@@ -1,4 +1,9 @@
 class User < ApplicationRecord
+  has_many :card_instances
+  has_many :cards, through: :card_instances
+  has_many :collection_users
+  has_many :collections, through: :collection_users
+
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
   before_save { email.downcase! }
 
